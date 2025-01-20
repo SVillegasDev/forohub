@@ -2,6 +2,9 @@ package com.forohub.apiforo.domain.topico;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDateTime;
 
 
 @Table(name = "topicos")
@@ -18,6 +21,8 @@ public class Topico {
     private String titulo;
     private String mensaje;
     private boolean activo;
+    @Column(updatable = false, insertable = false)
+    private LocalDateTime fecha;
 
 
     public Topico(DatosRegistroTopico datosRegistroTopico) {

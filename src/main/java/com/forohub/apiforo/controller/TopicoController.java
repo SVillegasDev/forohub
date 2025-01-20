@@ -24,7 +24,7 @@ public class TopicoController {
     @PostMapping
     public ResponseEntity<DatosRespuestaTopico> registrarTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico, UriComponentsBuilder uriComponentsBuilder){
         Topico topico = topicoRepository.save(new Topico(datosRegistroTopico));
-        DatosRespuestaTopico datosRespuestaTopico = new DatosRespuestaTopico(topico.getId(), topico.getTitulo(), topico.getMensaje());
+        DatosRespuestaTopico datosRespuestaTopico = new DatosRespuestaTopico(topico.getId(), topico.getTitulo(), topico.getMensaje(),topico.getFecha());
         URI url = uriComponentsBuilder.path("/medicos/{id}").buildAndExpand(topico.getId()).toUri();
         return ResponseEntity.created(url).body(datosRespuestaTopico);
     }
@@ -39,7 +39,7 @@ public class TopicoController {
     public ResponseEntity actualizarTopico(@RequestBody @Valid DatosActualizarTopico datosActualizarTopico){
         Topico topico = topicoRepository.getReferenceById(datosActualizarTopico.id());
         topico.actualizarDatos(datosActualizarTopico);
-        return  ResponseEntity.ok(new DatosRespuestaTopico(topico.getId(), topico.getTitulo(), topico.getMensaje()));
+        return  ResponseEntity.ok(new DatosRespuestaTopico(topico.getId(), topico.getTitulo(), topico.getMensaje(), topico.getFecha()));
     }
 
     @DeleteMapping("/{id}")
@@ -54,7 +54,7 @@ public class TopicoController {
     public ResponseEntity<DatosRespuestaTopico> retornarDatosTopico(@PathVariable Long id){
         Topico topico = topicoRepository.getReferenceById(id);
         topico.desactivarTopico();
-        var datosTopico = new DatosRespuestaTopico(topico.getId(), topico.getTitulo(), topico.getMensaje());
+        var datosTopico = new DatosRespuestaTopico(topico.getId(), topico.getTitulo(), topico.getMensaje(), topico.getFecha());
         return ResponseEntity.ok(datosTopico);
     }
 
