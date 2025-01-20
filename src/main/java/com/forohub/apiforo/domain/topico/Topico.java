@@ -1,5 +1,6 @@
 package com.forohub.apiforo.domain.topico;
 
+import com.forohub.apiforo.domain.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.cglib.core.Local;
@@ -24,11 +25,16 @@ public class Topico {
     @Column(updatable = false, insertable = false)
     private LocalDateTime fecha;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
-    public Topico(DatosRegistroTopico datosRegistroTopico) {
+
+    public Topico(DatosRegistroTopico datosRegistroTopico, Usuario usuario) {
         this.titulo = datosRegistroTopico.titulo();
         this.mensaje = datosRegistroTopico.mensaje();
         this.activo = true;
+        this.usuario = usuario;
     }
 
     public void actualizarDatos(DatosActualizarTopico datosActualizarTopico) {
